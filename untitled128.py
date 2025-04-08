@@ -7,41 +7,42 @@ Original file is located at
     https://colab.research.google.com/drive/10thU2hmQIiUsAJQlgyvJ1FdhsLNB5pYq
 """
 
+import streamlit as st
 from PIL import Image
 import matplotlib.pyplot as plt
 
 def read_image_from_path(image_path):
-  """Reads an image from the specified path using Pillow library.
+    """Reads an image from the specified path using Pillow library.
 
-  Args:
-    image_path: The path to the image file.
+    Args:
+        image_path: The path to the image file.
 
-  Returns:
-    A PIL Image object if the image is read successfully,
-    otherwise None.
-  """
-  try:
-    img = Image.open(image_path)
-    return img
-  except FileNotFoundError:
-    print(f"Error: Image file not found at {image_path}")
-    return None
-  except Exception as e:
-    print(f"Error reading image: {e}")
-    return None
+    Returns:
+        A PIL Image object if the image is read successfully,
+        otherwise None.
+    """
+    try:
+        img = Image.open(image_path)
+        return img
+    except FileNotFoundError:
+        st.error(f"Error: Image file not found at {image_path}")
+        return None
+    except Exception as e:
+        st.error(f"Error reading image: {e}")
+        return None
+
+# Streamlit app
+st.title("Image Display App")
 
 # Example usage
-image_path = '/content/logo_transparent.png'  # Replace with your image path
+image_path = "logo_transparent.png"  # Replace with your image path
 image = read_image_from_path(image_path)
 
 if image:
-  # Display the image (optional)
-  plt.imshow(image)
-  plt.axis('off')  # Hide axis
-  plt.show()
+    # Display the image using Streamlit
+    st.image(image, caption="Loaded Image", use_column_width=True)
 
-  # Access image properties (optional)
-  print(f"Image format: {image.format}")
-  print(f"Image mode: {image.mode}")
-  print(f"Image size: {image.size}")
-
+    # Access image properties
+    st.write(f"Image format: {image.format}")
+    st.write(f"Image mode: {image.mode}")
+    st.write(f"Image size: {image.size}")
